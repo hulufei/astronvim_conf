@@ -6,6 +6,7 @@
 return {
   -- first key is the mode
   n = {
+    [";"] = { ":" },
     -- second key is the lefthand side of the map
 
     -- navigate buffer tabs with `H` and `L`
