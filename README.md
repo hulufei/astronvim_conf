@@ -1,6 +1,7 @@
 # AstroNvim User Configuration Example
 
-A user configuration template for [AstroNvim](https://github.com/AstroNvim/AstroNvim)
+A user configuration template for
+[AstroNvim](https://github.com/AstroNvim/AstroNvim)
 
 ## 🛠️ Installation
 
@@ -19,9 +20,11 @@ git clone https://github.com/AstroNvim/AstroNvim ~/.config/nvim
 
 #### Create a new user repository from this template
 
-Press the "Use this template" button above to create a new repository to store your user configuration.
+Press the "Use this template" button above to create a new repository to store
+your user configuration.
 
-You can also just clone this repository directly if you do not want to track your user configuration in GitHub.
+You can also just clone this repository directly if you do not want to track
+your user configuration in GitHub.
 
 #### Clone the repository
 
@@ -34,3 +37,7 @@ git clone https://github.com/<your_user>/<your_repository> ~/.config/nvim/lua/us
 ```shell
 nvim
 ```
+
+## Credits
+
+- [Olica/dotfiles](https://github.com/Olical/dotfiles/tree/b72363f77586ad08ba1581c33ee476b1f02e999f/stowed/.config/nvim/lua/user)

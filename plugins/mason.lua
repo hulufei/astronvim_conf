@@ -1,36 +1,16 @@
--- customize mason plugins
-return {
-  -- use mason-lspconfig to configure LSP installations
-  {
-    "williamboman/mason-lspconfig.nvim",
-    -- overrides `require("mason-lspconfig").setup(...)`
-    opts = function(_, opts)
-      -- add more things to the ensure_installed table protecting against community packs modifying it
-      opts.ensure_installed = require("astronvim.utils").list_insert_unique(opts.ensure_installed, {
-        -- "lua_ls",
-      })
-    end,
-  },
-  -- use mason-null-ls to configure Formatters/Linter installation for null-ls sources
-  {
-    "jay-babu/mason-null-ls.nvim",
-    -- overrides `require("mason-null-ls").setup(...)`
-    opts = function(_, opts)
-      -- add more things to the ensure_installed table protecting against community packs modifying it
-      opts.ensure_installed = require("astronvim.utils").list_insert_unique(opts.ensure_installed, {
-        -- "prettier",
-        -- "stylua",
-      })
-    end,
-  },
-  {
-    "jay-babu/mason-nvim-dap.nvim",
-    -- overrides `require("mason-nvim-dap").setup(...)`
-    opts = function(_, opts)
-      -- add more things to the ensure_installed table protecting against community packs modifying it
-      opts.ensure_installed = require("astronvim.utils").list_insert_unique(opts.ensure_installed, {
-        -- "python",
-      })
-    end,
-  },
-}
+-- [nfnl] Compiled from plugins/mason.fnl by https://github.com/Olical/nfnl, do not edit.
+local uu = require("user.util")
+local fun = require("user.vendor.fun")
+local function _1_(_, opts)
+  local utils = require("astronvim.utils")
+  opts.ensure_installed = utils.list_insert_unique(opts.ensure_installed, {"fennel_language_server"})
+  return nil
+end
+local function _2_(_, opts)
+  local function _3_(v)
+    return not fun.index(v, {"luacheck"})
+  end
+  opts.ensure_installed = fun.filter(_3_, opts.ensure_installed)
+  return nil
+end
+return {uu.tx("williamboman/mason-lspconfig.nvim", {opts = _1_}), uu.tx("jay-babu/mason-null-ls.nvim", {opts = _2_})}
