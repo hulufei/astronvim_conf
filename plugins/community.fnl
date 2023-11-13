@@ -7,7 +7,9 @@
  (uu.tx {:import "astrocommunity.pack.lua"})
  (uu.tx {:import "astrocommunity.pack.typescript-all-in-one"})
  (uu.tx {:import "astrocommunity.pack.markdown"})
- (uu.tx {:import "astrocommunity.note-taking.obsidian-nvim"})
+ (uu.tx {:import "astrocommunity.motion.nvim-surround"})
+ (uu.tx {:import "astrocommunity.motion.leap-nvim" :enabled false})
+ (uu.tx {:import "astrocommunity.note-taking.obsidian-nvim" :enabled false})
  ; Further customize the options set by the community
  (uu.tx :nvim-treesitter/nvim-treesitter
         {:opts (fn [_ opts]
@@ -16,6 +18,7 @@
                    (if (fun.index value [:luap])
                     (table.remove opts.ensure_installed index))))})
  (uu.tx :epwalsh/obsidian.nvim
-        {:event [( .. "BufReadPre " vim.env.HOME "/vimwiki/*.md" )]
+        {:enabled false
+         :event [( .. "BufReadPre " vim.env.HOME "/vimwiki/*.md" )]
          :opts {:dir "~/vimwiki"}})
 ]

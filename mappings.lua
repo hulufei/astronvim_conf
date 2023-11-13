@@ -7,6 +7,22 @@ return {
   -- first key is the mode
   n = {
     [";"] = { ":" },
+    ["<leader>ww"] = {
+      function()
+        vim.cmd.tabnew()
+        vim.cmd.tcd "~/vimwiki"
+        require("telescope.builtin").find_files()
+      end,
+    },
+    ["<leader>wc"] = {
+      function()
+        vim.cmd.tabnew()
+        vim.cmd.tcd "~/.config/nvim/lua/user"
+        require("telescope.builtin").find_files()
+      end,
+    },
+    ["<leader>bt"] = { ":%s/\\s\\+$//e<cr>", desc = "Delete trailing whitespace" },
+    ["<leader>bn"] = { ":tabnew<cr>", desc = "Create a new tab" },
     -- second key is the lefthand side of the map
 
     -- navigate buffer tabs with `H` and `L`
@@ -20,17 +36,17 @@ return {
     -- },
 
     -- mappings seen under group name "Buffer"
-    ["<leader>bD"] = {
-      function()
-        require("astronvim.utils.status").heirline.buffer_picker(
-          function(bufnr) require("astronvim.utils.buffer").close(bufnr) end
-        )
-      end,
-      desc = "Pick to close",
-    },
+    -- ["<leader>bD"] = {
+    --   function()
+    --     require("astronvim.utils.status").heirline.buffer_picker(
+    --       function(bufnr) require("astronvim.utils.buffer").close(bufnr) end
+    --     )
+    --   end,
+    --   desc = "Pick to close",
+    -- },
     -- tables with the `name` key will be registered with which-key if it's installed
     -- this is useful for naming menus
-    ["<leader>b"] = { name = "Buffers" },
+    -- ["<leader>b"] = { name = "Buffers" },
     -- quick save
     -- ["<C-s>"] = { ":w!<cr>", desc = "Save File" },  -- change description but the same command
   },
