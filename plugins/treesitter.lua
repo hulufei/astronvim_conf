@@ -7,6 +7,6 @@ return {
       "markdown_inline",
       "fennel",
     })
-    opts.highlight.additional_vim_regex_highlighting = { "markdown" }
+    opts.highlight.additional_vim_regex_highlighting = { "markdown", "fennel" }
   end,
 }

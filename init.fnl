@@ -31,4 +31,25 @@
                                      :ignore_filetypes {}}
                     :timeout_ms 1000}
        :servers {}}
- :polish (fn [])}	
+ :polish (fn []
+           (local group (vim.api.nvim_create_augroup "md_augroup" {:clear true}))
+           (vim.api.nvim_create_autocmd "FileType" {:pattern "markdown"
+                                                    :group group
+                                                    :callback (fn [_args]
+                                                                (local get-input (fn [prompt completion]
+                                                                                   ; Modified get_input to support completion option
+                                                                                   ; https://github.com/kylechui/nvim-surround/blob/main/lua/nvim-surround/input.lua
+                                                                                   (let [(ok result) (pcall vim.fn.input {: prompt
+                                                                                                                          : completion
+                                                                                                                          :cancelreturn vim.NIL})]
+                                                                                     (if (and ok (not= result vim.NIL)) result))))
+                                                                ; Add surround with link
+                                                                ; https://github.com/kylechui/nvim-surround/discussions/53#discussioncomment-3134891
+                                                                (local surround (require "nvim-surround"))
+                                                                (surround.buffer_setup {:surrounds {"l" {:add (fn []
+                                                                                                                (local link (get-input "Enter the link:" "file"))
+                                                                                                                (if link [["["] [(.. "](" link ")")]]))
+                                                                                                         :find "%b[]%b()"
+                                                                                                         :delete "^(%[)().-(%]%b())()$"
+                                                                                                         :change {:target "^()()%b[]%((.-)()%)$"
+                                                                                                                  :replacement (fn [] [[""] [""]])}}}}))}))}	

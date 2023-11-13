@@ -23,6 +23,7 @@ return {
     },
     ["<leader>bt"] = { ":%s/\\s\\+$//e<cr>", desc = "Delete trailing whitespace" },
     ["<leader>bn"] = { ":tabnew<cr>", desc = "Create a new tab" },
+    ["<leader>ht"] = { ":tab help ", desc = "Help in new tab" },
     -- second key is the lefthand side of the map
 
     -- navigate buffer tabs with `H` and `L`
