@@ -8,6 +8,23 @@
   (vim.cmd.tcd dir)
   (telescope.find_files))
 
+; (fn fix-link-in-file [filename]
+;   ; Wrap links with whitespace with <> to be valid
+;   (with-open [f (io.open filename :r+)]
+;     (local pattern "(%[[^]]+%])%(([^<)]+[%s]+[^>)]+)%)")
+;     (local replace-link (fn [s]
+;                           (string.gsub s pattern "%1(<%2>)")))
+;     (local newcontent (vim.fn.join 
+;                         (icollect [line (f:lines)]
+;                           (replace-link line))
+;                         "\n"))
+;     (f:seek "set") ; Go to beginning
+;     (f:write newcontent)))
+;
+; (each [_ file (ipairs (vim.fn.glob (.. wiki "/**/*.md") nil true true))]
+;   (print file)
+;   (fix-link-in-file file))
+
 {:n {";" [":"]
      :<leader>bn (uu.tx ":tabnew<cr>" {:desc "Create a new tab"})
      :<leader>bt (uu.tx ":%s/\\s\\+$//e<cr>" {:desc "Delete trailing whitespace"})
