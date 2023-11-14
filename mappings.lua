@@ -1,58 +1,21 @@
--- Mapping data with "desc" stored directly by vim.keymap.set().
---
--- Please use this mappings table to set keyboard mapping since this is the
--- lower level configuration and more robust one. (which-key will
--- automatically pick-up stored data by this setting.)
-return {
-  -- first key is the mode
-  n = {
-    [";"] = { ":" },
-    ["<leader>ww"] = {
-      function()
-        vim.cmd.tabnew()
-        vim.cmd.tcd "~/vimwiki"
-        require("telescope.builtin").find_files()
-      end,
-    },
-    ["<leader>wc"] = {
-      function()
-        vim.cmd.tabnew()
-        vim.cmd.tcd "~/.config/nvim/lua/user"
-        require("telescope.builtin").find_files()
-      end,
-    },
-    ["<leader>bt"] = { ":%s/\\s\\+$//e<cr>", desc = "Delete trailing whitespace" },
-    ["<leader>bn"] = { ":tabnew<cr>", desc = "Create a new tab" },
-    ["<leader>ht"] = { ":tab help ", desc = "Help in new tab" },
-    -- second key is the lefthand side of the map
-
-    -- navigate buffer tabs with `H` and `L`
-    -- L = {
-    --   function() require("astronvim.utils.buffer").nav(vim.v.count > 0 and vim.v.count or 1) end,
-    --   desc = "Next buffer",
-    -- },
-    -- H = {
-    --   function() require("astronvim.utils.buffer").nav(-(vim.v.count > 0 and vim.v.count or 1)) end,
-    --   desc = "Previous buffer",
-    -- },
-
-    -- mappings seen under group name "Buffer"
-    -- ["<leader>bD"] = {
-    --   function()
-    --     require("astronvim.utils.status").heirline.buffer_picker(
-    --       function(bufnr) require("astronvim.utils.buffer").close(bufnr) end
-    --     )
-    --   end,
-    --   desc = "Pick to close",
-    -- },
-    -- tables with the `name` key will be registered with which-key if it's installed
-    -- this is useful for naming menus
-    -- ["<leader>b"] = { name = "Buffers" },
-    -- quick save
-    -- ["<C-s>"] = { ":w!<cr>", desc = "Save File" },  -- change description but the same command
-  },
-  t = {
-    -- setting a mapping to false will disable it
-    -- ["<esc>"] = false,
-  },
-}
+-- [nfnl] Compiled from mappings.fnl by https://github.com/Olical/nfnl, do not edit.
+local uu = require("user.util")
+local wiki = "~/vimwiki"
+local function tab_open_file_in(dir)
+  local telescope = require("telescope.builtin")
+  vim.cmd.tabnew()
+  vim.cmd.tcd(dir)
+  return telescope.find_files()
+end
+local function _1_()
+  return tab_open_file_in("~/.config/nvim/lua/user")
+end
+local function _2_()
+  return tab_open_file_in(wiki)
+end
+local function _3_()
+  local date = os.date("%Y-%m-%d")
+  vim.cmd.tabnew((wiki .. "/diary/" .. date .. ".md"))
+  return vim.cmd.tcd(wiki)
+end
+return {n = {[";"] = {":"}, ["<leader>bn"] = uu.tx(":tabnew<cr>", {desc = "Create a new tab"}), ["<leader>bt"] = uu.tx(":%s/\\s\\+$//e<cr>", {desc = "Delete trailing whitespace"}), ["<leader>ht"] = uu.tx(":tab help ", {desc = "Help in new tab"}), ["<leader>ct"] = uu.tx(":tabclose<cr>", {desc = "Close tab"}), ["<leader>wc"] = {_1_}, ["<leader>ww"] = {_2_}, ["<leader>w<leader>w"] = {_3_}}, t = {[",jj"] = uu.tx("<C-\\><C-N>", {desc = "Switch to normal mode"})}}

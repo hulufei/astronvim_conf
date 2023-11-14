@@ -28,7 +28,7 @@
        :formatting {:disabled {}
                     :format_on_save {:allow_filetypes {}
                                      :enabled true
-                                     :ignore_filetypes {}}
+                                     :ignore_filetypes ["markdown"]}
                     :timeout_ms 1000}
        :servers {}}
  :polish (fn []
@@ -36,13 +36,16 @@
            (vim.api.nvim_create_autocmd "FileType" {:pattern "markdown"
                                                     :group group
                                                     :callback (fn [_args]
-                                                                (vim.cmd "set formatoptions+=cmB") ; Make `gw` works for cjk, m - Also break at a multi-byte character above 255.
+                                                                (vim.opt.formatoptions:append "cmB") ; Make `gw` works for cjk, m - Also break at a multi-byte character above 255.
 
                                                                 ; -- It basically jumps to the previous spelling mistake [s,
                                                                 ; -- then picks the first suggestion 1z=, and then jumps back `]a.
                                                                 ; -- The <c-g>u in the middle make it possible to undo the spelling correction quickly.
-                                                                (vim.cmd "inoremap <C-l> <c-g>u<Esc>[s1z=`]a<c-g>u")
-
+                                                                (vim.keymap.set "i" "<C-l>" "<c-g>u<Esc>[s1z=`]a<c-g>u")
+                                                                
+                                                                (set vim.o.spell true) ; Enable spell
+                                                                (set vim.o.conceallevel 2) ; Enable conceal
+                                                                
                                                                 (local get-input (fn [prompt completion]
                                                                                    ; Modified get_input to support completion option
                                                                                    ; https://github.com/kylechui/nvim-surround/blob/main/lua/nvim-surround/input.lua
