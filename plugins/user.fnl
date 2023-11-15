@@ -7,11 +7,11 @@
  (uu.tx :Olical/conjure {:ft ["clojure" "fennel"]})
  (uu.tx :jaawerth/fennel.vim {:ft ["fennel"]})
  (uu.tx :tpope/vim-repeat {:lazy false})
- (uu.tx :hulufei/backlinks.nvim {:ft ["markdown"]
+ (uu.tx :hulufei/backlinks.nvim {:event "BufEnter */vimwiki/*.md"
                                  :config (fn []
                                            (set vim.g.backlinks_search_dir "~/vimwiki")
                                            (set vim.g.backlinks_exclude_pattern "/assets/")
-                                           (vim.keymap.set :n ",b" (. (require :backlinks) :find_files_back_linked)))})
+                                           (vim.keymap.set :n ",b" (. (require :backlinks) :find_files_back_linked) {:desc "Search backlinks"}))})
  (uu.tx :folke/flash.nvim {:event "VeryLazy"
                            :opts []
                            :keys [{1 "S"
