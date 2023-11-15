@@ -53,7 +53,16 @@
         (fun.zip (fun.range 1 len) (fun.take (- len 1) args)))
       args)))
 
+(fn get-input [prompt completion]
+  ; Modified get_input to support completion option
+  ; https://github.com/kylechui/nvim-surround/blob/main/lua/nvim-surround/input.lua
+  (let [(ok result) (pcall vim.fn.input {: prompt
+                                         : completion
+                                         :cancelreturn vim.NIL})]
+    (if (and ok (not= result vim.NIL)) result)))
+
 {: autoload
  : tx
+ : get-input
  : last
  : reverse}

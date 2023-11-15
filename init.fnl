@@ -1,3 +1,5 @@
+(local uu (require :user.util))
+
 {:updater {:auto_quit false
            :branch :nightly
            :channel :stable
@@ -46,18 +48,11 @@
                                                                 (set vim.o.spell true) ; Enable spell
                                                                 (set vim.o.conceallevel 2) ; Enable conceal
                                                                 
-                                                                (local get-input (fn [prompt completion]
-                                                                                   ; Modified get_input to support completion option
-                                                                                   ; https://github.com/kylechui/nvim-surround/blob/main/lua/nvim-surround/input.lua
-                                                                                   (let [(ok result) (pcall vim.fn.input {: prompt
-                                                                                                                          : completion
-                                                                                                                          :cancelreturn vim.NIL})]
-                                                                                     (if (and ok (not= result vim.NIL)) result))))
                                                                 ; Add surround with link
                                                                 ; https://github.com/kylechui/nvim-surround/discussions/53#discussioncomment-3134891
                                                                 (local surround (require "nvim-surround"))
                                                                 (surround.buffer_setup {:surrounds {"l" {:add (fn []
-                                                                                                                (local link (get-input "Enter the link:" "file"))
+                                                                                                                (local link (uu.get-input "Enter the link:" "file"))
                                                                                                                 (if link [["["] [(.. "](" link ")")]]))
                                                                                                          :find "%b[]%b()"
                                                                                                          :delete "^(%[)().-(%]%b())()$"

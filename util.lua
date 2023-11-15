@@ -46,4 +46,12 @@ local function tx(...)
     return args
   end
 end
-return {autoload = autoload, tx = tx, last = last, reverse = reverse}
+local function get_input(prompt, completion)
+  local ok, result = pcall(vim.fn.input, {prompt = prompt, completion = completion, cancelreturn = vim.NIL})
+  if (ok and (result ~= vim.NIL)) then
+    return result
+  else
+    return nil
+  end
+end
+return {autoload = autoload, tx = tx, ["get-input"] = get_input, last = last, reverse = reverse}
