@@ -88,18 +88,22 @@
      :<leader>bn (uu.tx ":tabnew<cr>" {:desc "Create a new tab"})
      :<leader>bt (uu.tx ":%s/\\s\\+$//e<cr>" {:desc "Delete trailing whitespace"})
      :<leader>ct (uu.tx ":tabclose<cr>" {:desc "Close tab"})
-     :<leader>ht [(fn []
-                    (tab-open-help))]
-     :<leader>wc [(fn []
-                    (tab-open-file-in "~/.config/nvim/lua/user"))]
-     :<leader>ww [(fn []
-                    (tab-open-file-in wiki))]
-     :<leader>w<leader>w [(fn []
-                            (local date (os.date "%Y-%m-%d"))
-                            (local diary (.. wiki "/diary/" date ".md"))
-                            (tab-open (get-tabpage-match-dir wiki)
-                                      (vim.cmd.edit diary)
-                                      (do
-                                        (vim.cmd.tabnew)
-                                        (vim.cmd.tcd wiki))))]}
+     :<leader>ht (uu.tx (fn []
+                          (tab-open-help))
+                        {:desc "Help in new tab"})
+     :<leader>wc (uu.tx (fn []
+                          (tab-open-file-in "~/.config/nvim/lua/user"))
+                        {:desc "AstroNvim config in new tab"})
+     :<leader>ww (uu.tx (fn []
+                          (tab-open-file-in wiki))
+                        {:desc "Wiki in new tab"})
+     :<leader>w<leader>w (uu.tx (fn []
+                                  (local date (os.date "%Y-%m-%d"))
+                                  (local diary (.. wiki "/diary/" date ".md"))
+                                  (tab-open (get-tabpage-match-dir wiki)
+                                            (vim.cmd.edit diary)
+                                            (do
+                                              (vim.cmd.tabnew)
+                                              (vim.cmd.tcd wiki))))
+                                {:desc "Today's diary in new tab"})}
  :t {",jj" (uu.tx "<C-\\><C-N>" {:desc "Switch to normal mode"})}}	

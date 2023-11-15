@@ -138,4 +138,4 @@ local function _18_()
     return vim.cmd.tcd(wiki)
   end
 end
-return {n = {[";"] = {":"}, ["<leader>bn"] = uu.tx(":tabnew<cr>", {desc = "Create a new tab"}), ["<leader>bt"] = uu.tx(":%s/\\s\\+$//e<cr>", {desc = "Delete trailing whitespace"}), ["<leader>ct"] = uu.tx(":tabclose<cr>", {desc = "Close tab"}), ["<leader>ht"] = {_15_}, ["<leader>wc"] = {_16_}, ["<leader>ww"] = {_17_}, ["<leader>w<leader>w"] = {_18_}}, t = {[",jj"] = uu.tx("<C-\\><C-N>", {desc = "Switch to normal mode"})}}
+return {n = {[";"] = {":"}, ["<leader>bn"] = uu.tx(":tabnew<cr>", {desc = "Create a new tab"}), ["<leader>bt"] = uu.tx(":%s/\\s\\+$//e<cr>", {desc = "Delete trailing whitespace"}), ["<leader>ct"] = uu.tx(":tabclose<cr>", {desc = "Close tab"}), ["<leader>ht"] = uu.tx(_15_, {desc = "Help in new tab"}), ["<leader>wc"] = uu.tx(_16_, {desc = "AstroNvim config in new tab"}), ["<leader>ww"] = uu.tx(_17_, {desc = "Wiki in new tab"}), ["<leader>w<leader>w"] = uu.tx(_18_, {desc = "Today's diary in new tab"})}, t = {[",jj"] = uu.tx("<C-\\><C-N>", {desc = "Switch to normal mode"})}}
