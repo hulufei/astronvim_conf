@@ -60,28 +60,29 @@
   (local win (unpack (list-wins-with-bufs bufs)))
   (get-tabpage-by-win win))
 
-(macro tab-open [get-tab do-in-activetab do-in-newtab]
+(macro tab-open [get-tab do-in-activetab do-for-newtab]
   `(let [activetab# ,get-tab]
      (if activetab# 
        (do
          (vim.cmd (..  ":tabnext" (vim.api.nvim_tabpage_get_number activetab#)))
          ,do-in-activetab)
        (do
-         (vim.cmd.tabnew)
-         ,do-in-newtab))))
+         ,do-for-newtab))))
 
 (fn tab-open-file-in [dir]
   (local telescope (require :telescope.builtin))
   (tab-open (get-tabpage-match-dir dir)
             nil
-            (vim.cmd.tcd dir))
+            (do
+              (vim.cmd.tabnew)
+              (vim.cmd.tcd dir)))
   (telescope.find_files))
 
 (fn tab-open-help []
   (local input (uu.get-input "Help> " "help"))
   (if input (tab-open (get-tabpage-with-help)
                       (vim.cmd.help input)
-                      (vim.cmd.help input))))
+                      (vim.cmd (.. ":tab help " input)))))
 
 {:n {";" [":"]
      :<leader>bn (uu.tx ":tabnew<cr>" {:desc "Create a new tab"})
@@ -98,5 +99,7 @@
                             (local diary (.. wiki "/diary/" date ".md"))
                             (tab-open (get-tabpage-match-dir wiki)
                                       (vim.cmd.edit diary)
-                                      (vim.cmd.tcd wiki)))]}
+                                      (do
+                                        (vim.cmd.tabnew)
+                                        (vim.cmd.tcd wiki))))]}
  :t {",jj" (uu.tx "<C-\\><C-N>" {:desc "Switch to normal mode"})}}	

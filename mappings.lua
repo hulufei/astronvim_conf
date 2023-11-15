@@ -111,8 +111,7 @@ local function tab_open_help()
       vim.cmd((":tabnext" .. vim.api.nvim_tabpage_get_number(activetab_2_auto)))
       return vim.cmd.help(input)
     else
-      vim.cmd.tabnew()
-      return vim.cmd.help(input)
+      return vim.cmd((":tab help " .. input))
     end
   else
     return nil
