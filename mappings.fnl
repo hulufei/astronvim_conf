@@ -20,13 +20,6 @@
 ;   (print file)
 ;   (fix-link-in-file file))
 
-(fn get-tabpage-by-win [id]
-  (if id
-    (unpack (icollect [_ tab (ipairs (vim.api.nvim_list_tabpages))]
-              (if (and (vim.api.nvim_tabpage_is_valid tab)
-                       (fun.index id (vim.api.nvim_tabpage_list_wins tab)))
-                tab)))))
-
 (fn list-bufs-match [test]
   (icollect [_ buf (ipairs (vim.api.nvim_list_bufs))]
               (if (and (vim.api.nvim_buf_is_loaded buf)
@@ -49,30 +42,36 @@
         win))
     []))
 
-(fn get-tabpage-match-dir [path]
+(fn filter-current-tab-wins [wins]
+  ;; Buffer may be loaded in different wins, make sure we get the wins in another tab
+  ;;
+  ;; TOIMPROVE: If there are multiple other tabs contain target buffer, then which one
+  ;; tab will active is unpredictable. (:drop seems to solve the problem partly)
+  (local current-wins (vim.api.nvim_tabpage_list_wins 0))
+  (icollect [_ win (ipairs wins)]
+    (if (fun.index win current-wins) nil win)))
+
+(fn get-win-match-dir [path]
   (local path (vim.fn.expand path))
   (local bufs (list-bufs-match-dir path))
-  (local win (unpack (list-wins-with-bufs bufs))) ; First window is enough
-  (get-tabpage-by-win win))
+  (unpack (filter-current-tab-wins (list-wins-with-bufs bufs))))
 
-(fn get-tabpage-with-help []
+(fn get-win-with-help []
   (local bufs (list-bufs-match-help))
-  (local win (unpack (list-wins-with-bufs bufs)))
-  (get-tabpage-by-win win))
+  (unpack (filter-current-tab-wins (list-wins-with-bufs bufs))))
 
-(macro tab-open [get-tab do-in-activetab do-for-newtab]
-  `(let [activetab# ,get-tab]
-     (if activetab# 
+(macro tab-open [get-win do-in-memo-tab do-for-newtab]
+  `(let [memo-tab-win# ,get-win]
+     (if memo-tab-win# 
        (do
-         (vim.cmd (..  ":tabnext" (vim.api.nvim_tabpage_get_number activetab#)))
-         ,do-in-activetab)
+         (vim.fn.win_gotoid memo-tab-win#)
+         ,do-in-memo-tab)
        (do
          ,do-for-newtab))))
 
 (fn tab-open-file-in [dir]
   (local telescope (require :telescope.builtin))
-  (tab-open (get-tabpage-match-dir dir)
-            nil
+  (tab-open (get-win-match-dir dir) nil
             (do
               (vim.cmd.tabnew)
               (vim.cmd.tcd dir)))
@@ -80,7 +79,7 @@
 
 (fn tab-open-help []
   (local input (uu.get-input "Help> " "help"))
-  (if input (tab-open (get-tabpage-with-help)
+  (if input (tab-open (get-win-with-help)
                       (vim.cmd.help input)
                       (vim.cmd (.. ":tab help " input)))))
 
@@ -100,7 +99,7 @@
      :<leader>w<leader>w (uu.tx (fn []
                                   (local date (os.date "%Y-%m-%d"))
                                   (local diary (.. wiki "/diary/" date ".md"))
-                                  (tab-open (get-tabpage-match-dir wiki)
+                                  (tab-open (get-win-match-dir wiki)
                                             (vim.cmd.edit diary)
                                             (do
                                               (vim.cmd.tabnew)

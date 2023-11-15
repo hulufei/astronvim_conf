@@ -2,31 +2,6 @@
 local uu = require("user.util")
 local fun = require("user.vendor.fun")
 local wiki = "~/vimwiki"
-local function get_tabpage_by_win(id)
-  if id then
-    local function _1_()
-      local tbl_17_auto = {}
-      local i_18_auto = #tbl_17_auto
-      for _, tab in ipairs(vim.api.nvim_list_tabpages()) do
-        local val_19_auto
-        if (vim.api.nvim_tabpage_is_valid(tab) and fun.index(id, vim.api.nvim_tabpage_list_wins(tab))) then
-          val_19_auto = tab
-        else
-          val_19_auto = nil
-        end
-        if (nil ~= val_19_auto) then
-          i_18_auto = (i_18_auto + 1)
-          do end (tbl_17_auto)[i_18_auto] = val_19_auto
-        else
-        end
-      end
-      return tbl_17_auto
-    end
-    return unpack(_1_())
-  else
-    return nil
-  end
-end
 local function list_bufs_match(test)
   local tbl_17_auto = {}
   local i_18_auto = #tbl_17_auto
@@ -46,16 +21,16 @@ local function list_bufs_match(test)
   return tbl_17_auto
 end
 local function list_bufs_match_dir(path)
-  local function _7_(buf)
+  local function _3_(buf)
     return string.find(vim.api.nvim_buf_get_name(buf), path, 1, true)
   end
-  return list_bufs_match(_7_)
+  return list_bufs_match(_3_)
 end
 local function list_bufs_match_help()
-  local function _8_(buf)
+  local function _4_(buf)
     return (vim.api.nvim_buf_get_option(buf, "filetype") == "help")
   end
-  return list_bufs_match(_8_)
+  return list_bufs_match(_4_)
 end
 local function list_wins_with_bufs(bufs)
   if unpack(bufs) then
@@ -79,23 +54,40 @@ local function list_wins_with_bufs(bufs)
     return {}
   end
 end
-local function get_tabpage_match_dir(path)
+local function filter_current_tab_wins(wins)
+  local current_wins = vim.api.nvim_tabpage_list_wins(0)
+  local tbl_17_auto = {}
+  local i_18_auto = #tbl_17_auto
+  for _, win in ipairs(wins) do
+    local val_19_auto
+    if fun.index(win, current_wins) then
+      val_19_auto = nil
+    else
+      val_19_auto = win
+    end
+    if (nil ~= val_19_auto) then
+      i_18_auto = (i_18_auto + 1)
+      do end (tbl_17_auto)[i_18_auto] = val_19_auto
+    else
+    end
+  end
+  return tbl_17_auto
+end
+local function get_win_match_dir(path)
   local path0 = vim.fn.expand(path)
   local bufs = list_bufs_match_dir(path0)
-  local win = unpack(list_wins_with_bufs(bufs))
-  return get_tabpage_by_win(win)
+  return unpack(filter_current_tab_wins(list_wins_with_bufs(bufs)))
 end
-local function get_tabpage_with_help()
+local function get_win_with_help()
   local bufs = list_bufs_match_help()
-  local win = unpack(list_wins_with_bufs(bufs))
-  return get_tabpage_by_win(win)
+  return unpack(filter_current_tab_wins(list_wins_with_bufs(bufs)))
 end
 local function tab_open_file_in(dir)
   local telescope = require("telescope.builtin")
   do
-    local activetab_2_auto = get_tabpage_match_dir(dir)
-    if activetab_2_auto then
-      vim.cmd((":tabnext" .. vim.api.nvim_tabpage_get_number(activetab_2_auto)))
+    local memo_tab_win_2_auto = get_win_match_dir(dir)
+    if memo_tab_win_2_auto then
+      vim.fn.win_gotoid(memo_tab_win_2_auto)
     else
       vim.cmd.tabnew()
       vim.cmd.tcd(dir)
@@ -106,9 +98,9 @@ end
 local function tab_open_help()
   local input = uu["get-input"]("Help> ", "help")
   if input then
-    local activetab_2_auto = get_tabpage_with_help()
-    if activetab_2_auto then
-      vim.cmd((":tabnext" .. vim.api.nvim_tabpage_get_number(activetab_2_auto)))
+    local memo_tab_win_2_auto = get_win_with_help()
+    if memo_tab_win_2_auto then
+      vim.fn.win_gotoid(memo_tab_win_2_auto)
       return vim.cmd.help(input)
     else
       return vim.cmd((":tab help " .. input))
@@ -117,25 +109,25 @@ local function tab_open_help()
     return nil
   end
 end
-local function _15_()
+local function _13_()
   return tab_open_help()
 end
-local function _16_()
+local function _14_()
   return tab_open_file_in("~/.config/nvim/lua/user")
 end
-local function _17_()
+local function _15_()
   return tab_open_file_in(wiki)
 end
-local function _18_()
+local function _16_()
   local date = os.date("%Y-%m-%d")
   local diary = (wiki .. "/diary/" .. date .. ".md")
-  local activetab_2_auto = get_tabpage_match_dir(wiki)
-  if activetab_2_auto then
-    vim.cmd((":tabnext" .. vim.api.nvim_tabpage_get_number(activetab_2_auto)))
+  local memo_tab_win_2_auto = get_win_match_dir(wiki)
+  if memo_tab_win_2_auto then
+    vim.fn.win_gotoid(memo_tab_win_2_auto)
     return vim.cmd.edit(diary)
   else
     vim.cmd.tabnew()
     return vim.cmd.tcd(wiki)
   end
 end
-return {n = {[";"] = {":"}, ["<leader>bn"] = uu.tx(":tabnew<cr>", {desc = "Create a new tab"}), ["<leader>bt"] = uu.tx(":%s/\\s\\+$//e<cr>", {desc = "Delete trailing whitespace"}), ["<leader>ct"] = uu.tx(":tabclose<cr>", {desc = "Close tab"}), ["<leader>ht"] = uu.tx(_15_, {desc = "Help in new tab"}), ["<leader>wc"] = uu.tx(_16_, {desc = "AstroNvim config in new tab"}), ["<leader>ww"] = uu.tx(_17_, {desc = "Wiki in new tab"}), ["<leader>w<leader>w"] = uu.tx(_18_, {desc = "Today's diary in new tab"})}, t = {[",jj"] = uu.tx("<C-\\><C-N>", {desc = "Switch to normal mode"})}}
+return {n = {[";"] = {":"}, ["<leader>bn"] = uu.tx(":tabnew<cr>", {desc = "Create a new tab"}), ["<leader>bt"] = uu.tx(":%s/\\s\\+$//e<cr>", {desc = "Delete trailing whitespace"}), ["<leader>ct"] = uu.tx(":tabclose<cr>", {desc = "Close tab"}), ["<leader>ht"] = uu.tx(_13_, {desc = "Help in new tab"}), ["<leader>wc"] = uu.tx(_14_, {desc = "AstroNvim config in new tab"}), ["<leader>ww"] = uu.tx(_15_, {desc = "Wiki in new tab"}), ["<leader>w<leader>w"] = uu.tx(_16_, {desc = "Today's diary in new tab"})}, t = {[",jj"] = uu.tx("<C-\\><C-N>", {desc = "Switch to normal mode"})}}
