@@ -44,17 +44,20 @@
                                                                 ; -- then picks the first suggestion 1z=, and then jumps back `]a.
                                                                 ; -- The <c-g>u in the middle make it possible to undo the spelling correction quickly.
                                                                 (vim.keymap.set "i" "<C-l>" "<c-g>u<Esc>[s1z=`]a<c-g>u")
-                                                                
+
                                                                 (set vim.o.spell true) ; Enable spell
                                                                 (set vim.o.conceallevel 2) ; Enable conceal
-                                                                
+
                                                                 ; Add surround with link
                                                                 ; https://github.com/kylechui/nvim-surround/discussions/53#discussioncomment-3134891
                                                                 (local surround (require "nvim-surround"))
-                                                                (surround.buffer_setup {:surrounds {"l" {:add (fn []
+                                                                (surround.buffer_setup {:surrounds {"l" {:add (fn [] ; [text](link)
                                                                                                                 (local link (uu.get-input "Enter the link:" "file"))
                                                                                                                 (if link [["["] [(.. "](" link ")")]]))
                                                                                                          :find "%b[]%b()"
                                                                                                          :delete "^(%[)().-(%]%b())()$"
                                                                                                          :change {:target "^()()%b[]%((.-)()%)$"
-                                                                                                                  :replacement (fn [] [[""] [""]])}}}}))}))}	
+                                                                                                                  :replacement (fn [] [[""] [""]])}}
+                                                                                                    "s" {:add (fn [] [[:**] [:**]]) ; **strong**
+                                                                                                         :find "%*%*.-%*%*"
+                                                                                                         :delete "^(%*%*)().-(%*%*)()$"}}}))}))}

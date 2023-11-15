@@ -23,7 +23,10 @@ local function _2_()
     local function _6_()
       return {{""}, {""}}
     end
-    return surround.buffer_setup({surrounds = {l = {add = _4_, find = "%b[]%b()", delete = "^(%[)().-(%]%b())()$", change = {target = "^()()%b[]%((.-)()%)$", replacement = _6_}}}})
+    local function _7_()
+      return {{"**"}, {"**"}}
+    end
+    return surround.buffer_setup({surrounds = {l = {add = _4_, find = "%b[]%b()", delete = "^(%[)().-(%]%b())()$", change = {target = "^()()%b[]%((.-)()%)$", replacement = _6_}}, s = {add = _7_, find = "%*%*.-%*%*", delete = "^(%*%*)().-(%*%*)()$"}}})
   end
   return vim.api.nvim_create_autocmd("FileType", {pattern = "markdown", group = group, callback = _3_})
 end
