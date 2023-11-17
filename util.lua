@@ -54,4 +54,12 @@ local function get_input(prompt, completion)
     return nil
   end
 end
-return {autoload = autoload, tx = tx, ["get-input"] = get_input, last = last, reverse = reverse}
+local function get_vselect_text()
+  local _, row, start = unpack(vim.fn.getpos("'<"))
+  local _0, _1, _end = unpack(vim.fn.getcharpos("'>"))
+  local row0 = (row - 1)
+  local start0 = (start - 1)
+  local _end0 = vim.fn.byteidx(unpack(vim.api.nvim_buf_get_lines(0, row0, (row0 + 1), nil)), _end)
+  return unpack(vim.api.nvim_buf_get_text(0, row0, start0, row0, _end0, {}))
+end
+return {autoload = autoload, tx = tx, ["get-input"] = get_input, ["get-vselect-text"] = get_vselect_text, last = last, reverse = reverse}

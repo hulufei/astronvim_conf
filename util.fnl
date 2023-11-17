@@ -61,8 +61,22 @@
                                          :cancelreturn vim.NIL})]
     (if (and ok (not= result vim.NIL)) result)))
 
+(fn get-vselect-text []
+  ;; Get visual selected text
+  ;; Type: nil -> string
+  ;; Constraint: only works for one line
+  (local (_ row start) (unpack (vim.fn.getpos "'<")))
+  (local (_ _ end) (unpack (vim.fn.getcharpos "'>"))) ; End char may be an unicode char
+  (local row (- row 1)) ; getpos return index-1 base, nvim_buf_get_text index-0 base
+  (local start (- start 1))
+  (local end (vim.fn.byteidx
+               (unpack (vim.api.nvim_buf_get_lines 0 row (+ row 1) nil))
+               end)) ; Convert charidx to byteidx
+  (unpack (vim.api.nvim_buf_get_text 0 row start row end [])))
+
 {: autoload
  : tx
  : get-input
+ : get-vselect-text
  : last
  : reverse}

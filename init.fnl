@@ -58,6 +58,13 @@
                                                                                                          :delete "^(%[)().-(%]%b())()$"
                                                                                                          :change {:target "^()()%b[]%((.-)()%)$"
                                                                                                                   :replacement (fn [] [[""] [""]])}}
+                                                                                                    "<cr>" {:add (fn [] ; [text](text-as-link)
+                                                                                                                (local link (uu.get-vselect-text))
+                                                                                                                (if link [["["] 
+                                                                                                                          [(.. "](" 
+                                                                                                                               (string.lower
+                                                                                                                                 (string.gsub link "[%p%s]+" "-")) ; replace punctuations and spaces
+                                                                                                                               ")")]]))}
                                                                                                     "s" {:add (fn [] [[:**] [:**]]) ; **strong**
                                                                                                          :find "%*%*.-%*%*"
                                                                                                          :delete "^(%*%*)().-(%*%*)()$"}}}))}))}

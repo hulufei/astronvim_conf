@@ -24,9 +24,17 @@ local function _2_()
       return {{""}, {""}}
     end
     local function _7_()
+      local link = uu["get-vselect-text"]()
+      if link then
+        return {{"["}, {("](" .. string.lower(string.gsub(link, "[%p%s]+", "-")) .. ")")}}
+      else
+        return nil
+      end
+    end
+    local function _9_()
       return {{"**"}, {"**"}}
     end
-    return surround.buffer_setup({surrounds = {l = {add = _4_, find = "%b[]%b()", delete = "^(%[)().-(%]%b())()$", change = {target = "^()()%b[]%((.-)()%)$", replacement = _6_}}, s = {add = _7_, find = "%*%*.-%*%*", delete = "^(%*%*)().-(%*%*)()$"}}})
+    return surround.buffer_setup({surrounds = {l = {add = _4_, find = "%b[]%b()", delete = "^(%[)().-(%]%b())()$", change = {target = "^()()%b[]%((.-)()%)$", replacement = _6_}}, ["<cr>"] = {add = _7_}, s = {add = _9_, find = "%*%*.-%*%*", delete = "^(%*%*)().-(%*%*)()$"}}})
   end
   return vim.api.nvim_create_autocmd("FileType", {pattern = "markdown", group = group, callback = _3_})
 end
