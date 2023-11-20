@@ -19,7 +19,10 @@
                                   ;                 ",cr"
                                   ;                 ":call nvlime#plugin#ConnectREPL('127.0.0.1', 7002, 'sftp://watney@mars-hab/', 3000)<cr>"
                                   ;                 {:desc "Connect to remote server"})
-                                  (set vim.g.nvlime_config {:implementation "ccl"}))})
+                                  (set vim.g.nvlime_config {:implementation "ccl"
+                                                            :cmp {:enabled true}})
+                                  (local cmp (require :cmp))
+                                  (cmp.setup.filetype [:lisp] {:sources [{:name "nvlime"}]}))})
  (uu.tx :folke/flash.nvim {:event "VeryLazy"
                            :opts []
                            :keys [{1 "S"

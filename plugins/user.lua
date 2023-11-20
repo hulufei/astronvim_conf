@@ -6,8 +6,9 @@ local function _1_()
   return vim.keymap.set("n", ",b", (require("backlinks")).find_files_back_linked, {desc = "Search backlinks"})
 end
 local function _2_()
-  vim.g.nvlime_config = {implementation = "ccl"}
-  return nil
+  vim.g.nvlime_config = {implementation = "ccl", cmp = {enabled = true}}
+  local cmp = require("cmp")
+  return cmp.setup.filetype({"lisp"}, {sources = {{name = "nvlime"}}})
 end
 local function _3_()
   return (require("flash")).treesitter()
