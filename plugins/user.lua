@@ -6,15 +6,19 @@ local function _1_()
   return vim.keymap.set("n", ",b", (require("backlinks")).find_files_back_linked, {desc = "Search backlinks"})
 end
 local function _2_()
-  return (require("flash")).treesitter()
+  vim.g.nvlime_config = {implementation = "ccl"}
+  return nil
 end
 local function _3_()
-  return (require("flash")).remote()
+  return (require("flash")).treesitter()
 end
 local function _4_()
-  return (require("flash")).treesitter_search()
+  return (require("flash")).remote()
 end
 local function _5_()
+  return (require("flash")).treesitter_search()
+end
+local function _6_()
   return (require("flash")).toggle()
 end
-return {uu.tx("Olical/nfnl", {ft = "fennel"}), uu.tx("Olical/conjure", {ft = {"clojure", "fennel"}}), uu.tx("jaawerth/fennel.vim", {ft = {"fennel"}}), uu.tx("tpope/vim-repeat", {lazy = false}), uu.tx("hulufei/backlinks.nvim", {event = "BufEnter */vimwiki/*.md", config = _1_}), uu.tx("folke/flash.nvim", {event = "VeryLazy", opts = {}, keys = {{"S", _2_, mode = {"n", "x", "o"}, desc = "Flash Treesitter"}, {"r", _3_, mode = "o", desc = "Remote Flash"}, {"R", _4_, mode = {"x", "o"}, desc = "Treesitter Search"}, {"<c-s>", _5_, mode = {"c"}, desc = "Toggle Flash Search"}}})}
+return {uu.tx("Olical/nfnl", {ft = "fennel"}), uu.tx("Olical/conjure", {ft = {"clojure", "fennel"}}), uu.tx("jaawerth/fennel.vim", {ft = {"fennel"}}), uu.tx("tpope/vim-repeat", {lazy = false}), uu.tx("hulufei/backlinks.nvim", {event = "BufEnter */vimwiki/*.md", config = _1_}), uu.tx("monkoose/nvlime", {ft = "lisp", dependencies = {"monkoose/parsley"}, init = _2_}), uu.tx("folke/flash.nvim", {event = "VeryLazy", opts = {}, keys = {{"S", _3_, mode = {"n", "x", "o"}, desc = "Flash Treesitter"}, {"r", _4_, mode = "o", desc = "Remote Flash"}, {"R", _5_, mode = {"x", "o"}, desc = "Treesitter Search"}, {"<c-s>", _6_, mode = {"c"}, desc = "Toggle Flash Search"}}})}

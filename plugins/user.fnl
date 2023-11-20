@@ -12,6 +12,14 @@
                                            (set vim.g.backlinks_search_dir "~/vimwiki")
                                            (set vim.g.backlinks_exclude_pattern "/assets/")
                                            (vim.keymap.set :n ",b" (. (require :backlinks) :find_files_back_linked) {:desc "Search backlinks"}))})
+ (uu.tx :monkoose/nvlime {:ft "lisp"
+                          :dependencies [:monkoose/parsley]
+                          :init (fn []
+                                  ; (vim.keymap.set :n 
+                                  ;                 ",cr"
+                                  ;                 ":call nvlime#plugin#ConnectREPL('127.0.0.1', 7002, 'sftp://watney@mars-hab/', 3000)<cr>"
+                                  ;                 {:desc "Connect to remote server"})
+                                  (set vim.g.nvlime_config {:implementation "ccl"}))})
  (uu.tx :folke/flash.nvim {:event "VeryLazy"
                            :opts []
                            :keys [{1 "S"
