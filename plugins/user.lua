@@ -8,7 +8,7 @@ end
 local function _2_()
   vim.g.nvlime_config = {implementation = "ccl", cmp = {enabled = true}}
   local cmp = require("cmp")
-  return cmp.setup.filetype({"lisp"}, {sources = {{name = "nvlime"}}})
+  return cmp.setup.filetype({"lisp"}, {sources = {{name = "nvlime"}, {name = "luasnip"}, {name = "buffer"}, {name = "path"}}})
 end
 local function _3_()
   return (require("flash")).treesitter()

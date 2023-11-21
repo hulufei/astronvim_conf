@@ -22,7 +22,10 @@
                                   (set vim.g.nvlime_config {:implementation "ccl"
                                                             :cmp {:enabled true}})
                                   (local cmp (require :cmp))
-                                  (cmp.setup.filetype [:lisp] {:sources [{:name "nvlime"}]}))})
+                                  (cmp.setup.filetype [:lisp] {:sources [{:name "nvlime"} ; Note: override not extend global sources
+                                                                         {:name "luasnip"}
+                                                                         {:name "buffer"}
+                                                                         {:name "path"}]}))})
  (uu.tx :folke/flash.nvim {:event "VeryLazy"
                            :opts []
                            :keys [{1 "S"
