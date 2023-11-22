@@ -7,6 +7,7 @@ local function _1_()
 end
 local function _2_()
   vim.g.nvlime_config = {implementation = "ccl", cmp = {enabled = true}}
+  vim.g.nvlime_mappings = {lisp = {normal = {load_file = "<LocalLeader>sl"}}}
   local cmp = require("cmp")
   return cmp.setup.filetype({"lisp"}, {sources = {{name = "nvlime"}, {name = "luasnip"}, {name = "buffer"}, {name = "path"}}})
 end

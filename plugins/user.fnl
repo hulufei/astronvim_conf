@@ -15,14 +15,13 @@
  (uu.tx :monkoose/nvlime {:ft "lisp"
                           :dependencies [:monkoose/parsley]
                           :init (fn []
-                                  ; (vim.keymap.set :n 
-                                  ;                 ",cr"
-                                  ;                 ":call nvlime#plugin#ConnectREPL('127.0.0.1', 7002, 'sftp://watney@mars-hab/', 3000)<cr>"
-                                  ;                 {:desc "Connect to remote server"})
                                   (set vim.g.nvlime_config {:implementation "ccl"
                                                             :cmp {:enabled true}})
+                                  ;; Remap to solve keymap override (mostly by sexp)
+                                  (set vim.g.nvlime_mappings {:lisp {:normal {:load_file "<LocalLeader>sl"}}})
                                   (local cmp (require :cmp))
-                                  (cmp.setup.filetype [:lisp] {:sources [{:name "nvlime"} ; Note: override not extend global sources
+                                  ;; Note: file-specify cmp override global sources, instead of extending
+                                  (cmp.setup.filetype [:lisp] {:sources [{:name "nvlime"}
                                                                          {:name "luasnip"}
                                                                          {:name "buffer"}
                                                                          {:name "path"}]}))})
