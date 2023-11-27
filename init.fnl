@@ -38,15 +38,15 @@
            (vim.api.nvim_create_autocmd "FileType" {:pattern "markdown"
                                                     :group group
                                                     :callback (fn [_args]
-                                                                (vim.opt.formatoptions:append "cmB") ; Make `gw` works for cjk, m - Also break at a multi-byte character above 255.
+                                                                (vim.opt_local.formatoptions:append "cmB") ; Make `gw` works for cjk, m - Also break at a multi-byte character above 255.
 
                                                                 ; -- It basically jumps to the previous spelling mistake [s,
                                                                 ; -- then picks the first suggestion 1z=, and then jumps back `]a.
                                                                 ; -- The <c-g>u in the middle make it possible to undo the spelling correction quickly.
                                                                 (vim.keymap.set "i" "<C-l>" "<c-g>u<Esc>[s1z=`]a<c-g>u")
 
-                                                                (set vim.o.spell true) ; Enable spell
-                                                                (set vim.o.conceallevel 2) ; Enable conceal
+                                                                (set vim.opt_local.spell true) ; Enable spell
+                                                                (set vim.opt_local.conceallevel 2) ; Enable conceal
 
                                                                 ; Add surround with link
                                                                 ; https://github.com/kylechui/nvim-surround/discussions/53#discussioncomment-3134891

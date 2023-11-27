@@ -43,4 +43,11 @@
                                    :mode ["c"] ; Command-line mode, see :h mode-c
                                    2 (fn []  ((. (require "flash") :toggle))) 
                                    :desc "Toggle Flash Search"}]})
+ (uu.tx :Robitx/gp.nvim {:event "VeryLazy"
+                         :enabled false
+                         :config (fn []
+                                   (local gp (require "gp"))
+                                   (gp.setup {:openai_api_key (os.getenv "OPENAI_API_KEY")
+                                              :curl_params ["--proxy" "socks5h://localhost:10800"]
+                                              :chat_model {:model "gpt-3.5"}}))})
 ]
