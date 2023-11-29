@@ -9,6 +9,8 @@ local function _2_()
   local function _3_(_args)
     do end (vim.opt_local.formatoptions):append("cmB")
     vim.keymap.set("i", "<C-l>", "<c-g>u<Esc>[s1z=`]a<c-g>u")
+    vim.keymap.set("n", "<tab>", ":call search('\\V](\\.\\+)')<cr>", {buffer = true})
+    vim.keymap.set("n", "<s-tab>", ":call search('\\V](\\.\\+)', 'b')<cr>", {buffer = true})
     vim.opt_local.spell = true
     vim.opt_local.conceallevel = 2
     local surround = require("nvim-surround")

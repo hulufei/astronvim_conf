@@ -46,6 +46,9 @@
                           ; -- then picks the first suggestion 1z=, and then jumps back `]a.
                           ; -- The <c-g>u in the middle make it possible to undo the spelling correction quickly.
                           (vim.keymap.set "i" "<C-l>" "<c-g>u<Esc>[s1z=`]a<c-g>u")
+                          ;; Use <tab> to navigate links
+                          (vim.keymap.set "n" "<tab>" ":call search('\\V](\\.\\+)')<cr>" {:buffer true})
+                          (vim.keymap.set "n" "<s-tab>" ":call search('\\V](\\.\\+)', 'b')<cr>" {:buffer true})
 
                           (set vim.opt_local.spell true) ; Enable spell
                           (set vim.opt_local.conceallevel 2) ; Enable conceal
