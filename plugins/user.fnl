@@ -15,7 +15,8 @@
  (uu.tx :monkoose/nvlime {:ft "lisp"
                           :dependencies [:monkoose/parsley]
                           :init (fn []
-                                  (set vim.g.nvlime_config {:implementation "ccl"
+                                  (set vim.g.nvlime_config {:implementation "sbcl"
+                                                            ; :compiler_policy {:DEBUG 3 :SPEED 0}
                                                             :cmp {:enabled true}})
                                   ;; Remap to solve keymap override (mostly by sexp)
                                   (set vim.g.nvlime_mappings {:lisp {:normal {:load_file "<LocalLeader>sl"}}})
