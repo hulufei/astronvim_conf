@@ -84,6 +84,7 @@
                       (vim.cmd (.. ":tab help " input)))))
 
 {:n {";" [":"]
+     "Y" ["^y$"] ; Copy entire line without the newline at the end
      :<leader>bn (uu.tx ":tabnew<cr>" {:desc "Create a new tab"})
      :<leader>bt (uu.tx ":%s/\\s\\+$//e<cr>" {:desc "Delete trailing whitespace"})
      :<leader>ct (uu.tx ":tabclose<cr>" {:desc "Close tab"})
