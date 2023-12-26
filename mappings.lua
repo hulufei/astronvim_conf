@@ -109,16 +109,29 @@ local function tab_open_help()
     return nil
   end
 end
-local function _13_()
-  return tab_open_help()
+local function tab_open_cmd()
+  local input = uu["get-input"]("Command> ", "command")
+  if input then
+    local output = vim.fn.execute(input)
+    vim.cmd.tabnew()
+    return vim.api.nvim_buf_set_lines(0, 0, -1, nil, vim.fn.split(output, "\n"))
+  else
+    return nil
+  end
 end
 local function _14_()
-  return tab_open_file_in("~/.config/nvim/lua/user")
+  return tab_open_help()
 end
 local function _15_()
-  return tab_open_file_in(wiki)
+  return tab_open_cmd()
 end
 local function _16_()
+  return tab_open_file_in("~/.config/nvim/lua/user")
+end
+local function _17_()
+  return tab_open_file_in(wiki)
+end
+local function _18_()
   local date = os.date("%Y-%m-%d")
   local diary = (wiki .. "/diary/" .. date .. ".md")
   local memo_tab_win_2_auto = get_win_match_dir(wiki)
@@ -130,4 +143,4 @@ local function _16_()
     return vim.cmd.tcd(wiki)
   end
 end
-return {n = {[";"] = {":"}, Y = {"^y$"}, ["<leader>bn"] = uu.tx(":tabnew<cr>", {desc = "Create a new tab"}), ["<leader>bt"] = uu.tx(":%s/\\s\\+$//e<cr>", {desc = "Delete trailing whitespace"}), ["<leader>ct"] = uu.tx(":tabclose<cr>", {desc = "Close tab"}), ["<leader>ht"] = uu.tx(_13_, {desc = "Help in new tab"}), ["<leader>wc"] = uu.tx(_14_, {desc = "AstroNvim config in new tab"}), ["<leader>ww"] = uu.tx(_15_, {desc = "Wiki in new tab"}), ["<leader>w<leader>w"] = uu.tx(_16_, {desc = "Today's diary in new tab"})}, t = {[",jj"] = uu.tx("<C-\\><C-N>", {desc = "Switch to normal mode"})}}
+return {n = {[";"] = {":"}, Y = {"^y$"}, ["<leader>bn"] = uu.tx(":tabnew<cr>", {desc = "Create a new tab"}), ["<leader>bt"] = uu.tx(":%s/\\s\\+$//e<cr>", {desc = "Delete trailing whitespace"}), ["<leader>ct"] = uu.tx(":tabclose<cr>", {desc = "Close tab"}), ["<leader>ht"] = uu.tx(_14_, {desc = "Help in new tab"}), ["<leader>tc"] = uu.tx(_15_, {desc = "Vim command output in a new tab"}), ["<leader>wc"] = uu.tx(_16_, {desc = "AstroNvim config in new tab"}), ["<leader>ww"] = uu.tx(_17_, {desc = "Wiki in new tab"}), ["<leader>w<leader>w"] = uu.tx(_18_, {desc = "Today's diary in new tab"})}, t = {[",jj"] = uu.tx("<C-\\><C-N>", {desc = "Switch to normal mode"})}}

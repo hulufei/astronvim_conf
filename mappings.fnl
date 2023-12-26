@@ -83,6 +83,16 @@
                       (vim.cmd.help input)
                       (vim.cmd (.. ":tab help " input)))))
 
+(fn tab-open-cmd []
+  (local input (uu.get-input "Command> " "command"))
+  (if input
+    (do
+      (local output (vim.fn.execute input))
+      (vim.cmd.tabnew)
+      (vim.api.nvim_buf_set_lines
+        0 0 -1 nil (vim.fn.split output "\n"))
+      )))
+
 {:n {";" [":"]
      "Y" ["^y$"] ; Copy entire line without the newline at the end
      :<leader>bn (uu.tx ":tabnew<cr>" {:desc "Create a new tab"})
@@ -91,6 +101,9 @@
      :<leader>ht (uu.tx (fn []
                           (tab-open-help))
                         {:desc "Help in new tab"})
+     :<leader>tc (uu.tx (fn []
+                          (tab-open-cmd))
+                        {:desc "Vim command output in a new tab"})
      :<leader>wc (uu.tx (fn []
                           (tab-open-file-in "~/.config/nvim/lua/user"))
                         {:desc "AstroNvim config in new tab"})
