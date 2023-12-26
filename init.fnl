@@ -51,7 +51,8 @@
                           (vim.keymap.set "n" "<s-tab>" ":call search('\\V](\\.\\+)', 'b')<cr>" {:buffer true})
 
                           (set vim.opt_local.spell true) ; Enable spell
-                          (set vim.opt_local.conceallevel 2) ; Enable conceal
+                          ;; Coceal code blocks is annoying, so disabled conceal by default
+                          ; (set vim.opt_local.conceallevel 2) ; Enable conceal
 
                           ; Add surround with link
                           ; https://github.com/kylechui/nvim-surround/discussions/53#discussioncomment-3134891

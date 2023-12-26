@@ -12,7 +12,7 @@ local function _1_(_, opts)
 end
 local function _3_()
   local peek = require("peek")
-  peek.setup({app = "browser"})
+  peek.setup({app = "browser", theme = "light"})
   vim.api.nvim_create_user_command("PeekOpen", peek.open, {})
   return vim.api.nvim_create_user_command("PeekClose", peek.close, {})
 end

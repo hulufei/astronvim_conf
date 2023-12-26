@@ -25,7 +25,8 @@
  (uu.tx :toppair/peek.nvim
         {:config (fn []
                    (local peek (require "peek"))
-                   (peek.setup {:app "browser"})
+                   (peek.setup {:app "browser"
+                                :theme "light"})
                    (vim.api.nvim_create_user_command "PeekOpen" peek.open {})
                    (vim.api.nvim_create_user_command "PeekClose" peek.close {})
                    )})
