@@ -16,6 +16,15 @@
 
      (ls.filetype_extend :tex [:katex])
      (ls.filetype_extend :markdown [:tex :katex :html])
+
+     ;; Since we write snippets in fnl, auto reload will not work
+     (vim.keymap.set
+       "n" "<leader>sr"
+       (fn []
+         (local loader (require "luasnip.loaders"))
+         (loader.reload_file 
+           (.. (vim.fn.expand "%:p:r") ".lua")))
+       {:desc "Reload current snippet file"})
      
      ;; Create user commands
      (vim.api.nvim_create_user_command 
