@@ -74,6 +74,7 @@
                                                               "s" {:add (fn [] [[:**] [:**]]) ; **strong**
                                                                    :find "%*%*.-%*%*"
                                                                    :delete "^(%*%*)().-(%*%*)()$"}}}))})
+           (set vim.opt.shell "fish")
            ;; vertical line ruler
            (vim.cmd "
                     map ,ch :call SetColorColumn()<CR>
