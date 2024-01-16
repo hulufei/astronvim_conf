@@ -4,7 +4,11 @@
 ; see https://docs.astronvim.com/recipes/custom_plugins/
 [
  (uu.tx :Olical/nfnl {:ft "fennel"})
- (uu.tx :Olical/conjure {:ft ["clojure" "fennel"]})
+ (uu.tx :Olical/conjure {:ft ["clojure" "fennel" "typescript" "javascript"]
+                         :config (fn []
+                                   ; Rebind it from K to <prefix>gk
+                                   (set vim.g.conjure#mapping#doc_word "gk"))})
+ (uu.tx :sigmaSd/conjure-deno {:ft ["typescript" "javascript"]})
  (uu.tx :jaawerth/fennel.vim {:ft ["fennel"]})
  (uu.tx :tpope/vim-repeat {:lazy false})
  (uu.tx :hulufei/backlinks.nvim {:event "BufEnter */vimwiki/*.md"
