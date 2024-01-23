@@ -49,6 +49,20 @@
                           ;; Use <tab> to navigate links
                           (vim.keymap.set "n" "<tab>" ":call search('\\V](\\.\\+)')<cr>" {:buffer true})
                           (vim.keymap.set "n" "<s-tab>" ":call search('\\V](\\.\\+)', 'b')<cr>" {:buffer true})
+                          (vim.keymap.set "n" "<cr>" 
+                                          (fn []
+                                            (local line (vim.fn.getline "."))
+                                            (local link (string.match line "%b[]%((.-)%)"))
+                                            (when (and link (not (string.match link "https?://")))
+                                              (local dir (vim.fn.expand "%:p:h"))
+                                              (local link (if (not (string.match link "%.md"))
+                                                            (.. link ".md")
+                                                            link))
+                                              (local file (vim.fn.resolve (.. dir "/" link)))
+                                              (vim.cmd.edit file))
+                                            )
+                                          {:buffer true
+                                           :desc "Basic create on press enter on links"})
 
                           (set vim.opt_local.spell true) ; Enable spell
                           ;; Coceal code blocks is annoying, so disabled conceal by default
