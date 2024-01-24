@@ -24,7 +24,7 @@
          (local loader (require "luasnip.loaders"))
          (loader.reload_file 
            (.. (vim.fn.expand "%:p:r") ".lua")))
-       {:desc "Reload current snippet file"})
+       {:desc "Reload current snippet file(should invoke in snippet file)"})
      
      ;; Create user commands
      (vim.api.nvim_create_user_command 
