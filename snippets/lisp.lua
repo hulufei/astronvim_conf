@@ -1,2 +1,2 @@
 -- [nfnl] Compiled from snippets/lisp.fnl by https://github.com/Olical/nfnl, do not edit.
-return {s({trig = "slot", desc = "Slot property definition"}, fmta("(<k>\n  :accessor <k>\n  :initarg :<k>)", {k = i(1, "name")}, {repeat_duplicates = true}))}
+return {s({trig = "slot", desc = "Slot property definition"}, fmta("(<k>\n  :accessor <k>\n  :initarg :<k>)", {k = i(1, "name")}, {repeat_duplicates = true})), s({trig = "clp", desc = "Generate modern project skeletons"}, fmta("\n          ;; https://github.com/fukamachi/cl-project\n          (ql:quickload :cl-project)\n          (cl-project:make-project \n            #p\"<>\"\n            :name \"<>\"\n            :depends-on <>)\n          ", {i(1, "."), i(2, "project-name"), i(3, "'(:clack :cl-annot)")}))}

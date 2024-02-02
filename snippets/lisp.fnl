@@ -5,4 +5,13 @@
   :initarg :<k>)" 
           {:k (i 1 "name")}
           {:repeat_duplicates true}))
+ (s {:trig "clp" :desc "Generate modern project skeletons"}
+    (fmta "
+          ;; https://github.com/fukamachi/cl-project
+          (ql:quickload :cl-project)
+          (cl-project:make-project 
+            #p\"<>\"
+            :name \"<>\"
+            :depends-on <>)
+          " [(i 1 ".") (i 2 "project-name") (i 3 "'(:clack :cl-annot)")]))
  ]
