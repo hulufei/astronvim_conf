@@ -2,6 +2,6 @@
 local uu = require("user.util")
 local function _1_()
   local bs = require("better_escape")
-  return bs.setup({mapping = {"jj"}})
+  return bs.setup({mapping = {"jj"}, timeout = 100})
 end
-return uu.tx("max397574/better-escape.nvim", {config = _1_})
+return uu.tx("max397574/better-escape.nvim", {config = _1_, enabled = false})

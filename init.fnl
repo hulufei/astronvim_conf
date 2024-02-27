@@ -89,7 +89,7 @@
                                                                    :find "%*%*.-%*%*"
                                                                    :delete "^(%*%*)().-(%*%*)()$"}}}))})
            (set vim.opt.shell "fish")
-           (set vim.o.timeoutlen 300)
+           ; (set vim.o.timeoutlen 150)
            ;; vertical line ruler
            (vim.cmd "
                     map ,ch :call SetColorColumn()<CR>

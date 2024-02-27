@@ -119,4 +119,5 @@
                                               (vim.cmd.tabnew)
                                               (vim.cmd.tcd wiki))))
                                 {:desc "Today's diary in new tab"})}
+ :i {"jj" ["<Esc>"]}
  :t {",jj" (uu.tx "<C-\\><C-N>" {:desc "Switch to normal mode"})}}	

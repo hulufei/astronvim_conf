@@ -57,7 +57,6 @@ local function _2_()
   end
   vim.api.nvim_create_autocmd("FileType", {pattern = "markdown", group = group, callback = _3_})
   vim.opt.shell = "fish"
-  vim.o.timeoutlen = 300
   return vim.cmd("\n                    map ,ch :call SetColorColumn()<CR>\n                    function! SetColorColumn()\n                      let col_num = virtcol('.')\n                      let cc_list = split(&cc, ',')\n                      if count(cc_list, string(col_num)) <= 0\n                      execute 'set cc+='.col_num\n                      else\n                      execute 'set cc-='.col_num\n                      endif\n                    endfunction\n                    ")
 end
 return {updater = {branch = "nightly", channel = "stable", commit = nil, pin_plugins = nil, remote = "origin", remotes = {}, show_changelog = true, version = "latest", skip_prompts = false, auto_quit = false}, colorscheme = "astrodark", diagnostics = {underline = true, virtual_text = true}, lazy = {defaults = {lazy = true}, performance = {rtp = {disabled_plugins = {"tohtml", "gzip", "matchit", "zipPlugin", "netrwPlugin", "tarPlugin"}}}}, lsp = {config = {fennel_language_server = _1_}, formatting = {disabled = {}, format_on_save = {allow_filetypes = {}, enabled = true, ignore_filetypes = {"markdown"}}, timeout_ms = 1000}, servers = {}}, polish = _2_}
