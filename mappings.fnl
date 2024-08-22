@@ -116,7 +116,7 @@
                                   (tab-open (get-win-match-dir wiki)
                                             (vim.cmd.edit diary)
                                             (do
-                                              (vim.cmd.tabnew)
+                                              (vim.cmd.tabnew diary)
                                               (vim.cmd.tcd wiki))))
                                 {:desc "Today's diary in new tab"})}
  :i {"jj" ["<Esc>"]}

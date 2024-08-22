@@ -14,4 +14,11 @@
             :name \"<>\"
             :depends-on <>)
           " [(i 1 ".") (i 2 "project-name") (i 3 "'(:clack :cl-annot)")]))
+ (s {:trig "defp" :desc "Define package"}
+    (fmta "(defpackage :<k>
+  (:use :cl))
+    
+(in-package :<k>)"
+          {:k (i 1 "name")}
+          {:repeat_duplicates true}))
  ]

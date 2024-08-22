@@ -139,7 +139,7 @@ local function _18_()
     vim.fn.win_gotoid(memo_tab_win_2_auto)
     return vim.cmd.edit(diary)
   else
-    vim.cmd.tabnew()
+    vim.cmd.tabnew(diary)
     return vim.cmd.tcd(wiki)
   end
 end

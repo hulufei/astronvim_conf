@@ -11,6 +11,7 @@
  (uu.tx :sigmaSd/conjure-deno {:ft ["typescript" "javascript"]})
  (uu.tx :jaawerth/fennel.vim {:ft ["fennel"]})
  (uu.tx :tpope/vim-repeat {:lazy false})
+ (uu.tx :dhruvasagar/vim-table-mode {:ft "markdown"})
  (uu.tx :hulufei/backlinks.nvim {:event "BufEnter */vimwiki/*.md"
                                  :config (fn []
                                            (set vim.g.backlinks_search_dir "~/vimwiki")
@@ -22,8 +23,9 @@
                                   (set vim.g.nvlime_config {:implementation "sbcl"
                                                             ; :compiler_policy {:DEBUG 3 :SPEED 0}
                                                             :cmp {:enabled true}})
-                                  ;; Remap to solve keymap override (mostly by sexp)
-                                  (set vim.g.nvlime_mappings {:lisp {:normal {:load_file "<LocalLeader>sl"}}})
+                                  (set vim.g.nvlime_mappings {:lisp {:normal {:load_file "<LocalLeader>sl"
+                                                                              :repl {:show "<LocalLeader>so"
+                                                                                     :clear "<LocalLeader>sC"}}}})
                                   (local cmp (require :cmp))
                                   ;; Note: file-specify cmp override global sources, instead of extending
                                   (cmp.setup.filetype [:lisp] {:sources [{:name "nvlime"}
