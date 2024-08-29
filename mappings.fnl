@@ -110,14 +110,9 @@
      :<leader>ww (uu.tx (fn []
                           (tab-open-file-in wiki))
                         {:desc "Wiki in new tab"})
-     :<leader>w<leader>w (uu.tx (fn []
-                                  (local date (os.date "%Y-%m-%d"))
-                                  (local diary (.. wiki "/diary/" date ".md"))
-                                  (tab-open (get-win-match-dir wiki)
-                                            (vim.cmd.edit diary)
-                                            (do
-                                              (vim.cmd.tabnew diary)
-                                              (vim.cmd.tcd wiki))))
-                                {:desc "Today's diary in new tab"})}
+     :<leader>w<leader>w (uu.tx ":DiaryNew<cr>" {:desc "Today's diary in new tab"})
+     :<leader>w<leader>r (uu.tx ":DiaryReviewRandom<cr>" {:desc "Random diary"})
+     :<leader>w<leader>y (uu.tx ":YesterdayOnceMore<cr>" {:desc "Yesterday once more"})
+     :<leader>w<leader>i (uu.tx ":DiaryGenerateLinks<cr>" {:desc "Generate diary index"})}
  :i {"jj" ["<Esc>"]}
  :t {",jj" (uu.tx "<C-\\><C-N>" {:desc "Switch to normal mode"})}}	

@@ -2,6 +2,7 @@
 
 ; Caution: Lazy loading for plugins by default
 ; see https://docs.astronvim.com/recipes/custom_plugins/
+
 [
  (uu.tx :Olical/nfnl {:ft "fennel"})
  (uu.tx :Olical/conjure {:ft ["clojure" "fennel" "typescript" "javascript"]
@@ -12,6 +13,7 @@
  (uu.tx :jaawerth/fennel.vim {:ft ["fennel"]})
  (uu.tx :tpope/vim-repeat {:lazy false})
  (uu.tx :dhruvasagar/vim-table-mode {:ft "markdown"})
+ (uu.tx {:dir "~/diary.nvim" :lazy false :opts {:diary-dir "~/vimwiki/diary"}})
  (uu.tx :hulufei/backlinks.nvim {:event "BufEnter */vimwiki/*.md"
                                  :config (fn []
                                            (set vim.g.backlinks_search_dir "~/vimwiki")
@@ -50,11 +52,22 @@
                                    :mode ["c"] ; Command-line mode, see :h mode-c
                                    2 (fn []  ((. (require "flash") :toggle))) 
                                    :desc "Toggle Flash Search"}]})
- (uu.tx :Robitx/gp.nvim {:event "VeryLazy"
-                         :enabled false
-                         :config (fn []
-                                   (local gp (require "gp"))
-                                   (gp.setup {:openai_api_key (os.getenv "OPENAI_API_KEY")
-                                              :curl_params ["--proxy" "socks5h://localhost:10800"]
-                                              :chat_model {:model "gpt-3.5"}}))})
+ (uu.tx :olimorris/codecompanion.nvim
+        {:lazy false
+         :dependencies ["nvim-lua/plenary.nvim" "nvim-treesitter/nvim-treesitter"]
+         :config
+         (fn []
+           (local codecompanion (require :codecompanion))
+           (codecompanion.setup
+              {:strategies {:chat {:adapter "gemini"}
+                            :inline {:adapter "gemini"}
+                            :agent {:adapter "gemini"}}
+               :adapters
+               {:gemini
+                (fn []
+                  (let [adapters (require "codecompanion.adapters")]
+                    (adapters.extend
+                      "gemini" {:env {:api_key (os.getenv "GEMINI_API_KEY")}})))}
+               }))
+         })
 ]
